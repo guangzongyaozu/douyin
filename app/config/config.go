@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"os"
 	"reflect"
 )
 
@@ -13,7 +14,7 @@ type Config struct {
 	Port string
 
 	Static struct {
-		UrlBase  string `yaml:"url-base"`
+		BaseUrl  string `yaml:"base-url"`
 		Route    string
 		Filepath string
 	}
@@ -48,9 +49,35 @@ func loadConfig(filename string) (*Config, error) {
 		return nil, fmt.Errorf("in file %q: %v", filename, err)
 	}
 
+	// override config if env variables exist
+	loadConfigFromEnv(config)
+
 	checkRequired(*config)
 
 	return config, nil
+}
+
+func loadConfigFromEnv(config *Config) {
+	// static-url-base
+	if baseUrl := os.Getenv("static-base-url"); baseUrl != "" {
+		config.Static.BaseUrl = baseUrl
+	}
+	// db-name
+	if dbName := os.Getenv("db-name"); dbName != "" {
+		config.Mysql.Database = dbName
+	}
+	// db-host
+	if host := os.Getenv("db-host"); host != "" {
+		config.Mysql.Host = host
+	}
+	// db-username
+	if username := os.Getenv("db-username"); username != "" {
+		config.Mysql.Username = username
+	}
+	// db-password
+	if password := os.Getenv("db-password"); password != "" {
+		config.Mysql.Password = password
+	}
 }
 
 func checkRequired(st interface{}) {
