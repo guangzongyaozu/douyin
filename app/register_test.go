@@ -23,7 +23,7 @@ import (
 	"testing"
 )
 
-//注册接口测试
+//注册接口测试(功能测试)
 func TestRegister(t *testing.T) {
 	router := Setup("../test/")
 	dao.TruncateAllTables()
@@ -41,5 +41,21 @@ func TestRegister(t *testing.T) {
 		// 服务端响应 401 未授权的
 		assert.Equal(t, 200, w.Code)
 		//fmt.Println("-----")
+	}
+}
+
+//注册接口压力测试
+func BenchmarkRegister(b *testing.B) {
+	b.StopTimer()  // 调用该函数停止压力测试的时间计数
+	b.N = 10       // 发送的请求数量
+	b.StartTimer() // 重新开始时间计时
+	router := Setup("../test/")
+	dao.TruncateAllTables()
+	for i := 0; i < b.N; i++ {
+		w := httptest.NewRecorder()
+		req, _ := http.NewRequest("POST",
+			"http://localhost:8080/douyin/user/register/?username='douyintest'"+
+				"&password='123456789'", nil)
+		router.ServeHTTP(w, req)
 	}
 }
