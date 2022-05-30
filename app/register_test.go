@@ -31,6 +31,7 @@ func TestRegister(t *testing.T) {
 	res := data.Read_json(".\\data\\register.json")
 	// 获取[]byte类型的json测试数据
 	testData := data.UsrPwdData{}
+	except := []int{400, 400, 400, 400, 400, 200, 200, 200, 200, 200}
 	// 解析byte数组获取解析后的测试数据
 	testData = data.ParseRegister(res)
 	for i := 0; i < len(testData.Data); i++ {
@@ -39,7 +40,7 @@ func TestRegister(t *testing.T) {
 			string(testData.Data[i].Username)+"&password="+string(testData.Data[i].Password), nil)
 		router.ServeHTTP(w, req)
 		// 服务端响应 401 未授权的
-		assert.Equal(t, 200, w.Code)
+		assert.Equal(t, except[i], w.Code)
 		//fmt.Println("-----")
 	}
 }
