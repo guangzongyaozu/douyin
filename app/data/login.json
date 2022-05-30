@@ -5,40 +5,16 @@
       "password": ""
     },
     {
-      "username": "",
+      "username": "douyin",
+      "password": "1234"
+    },
+    {
+      "username": "dddd",
       "password": "123456789"
-    },
-    {
-      "username": "douyintest",
-      "password": ""
-    },
-    {
-      "username": "dou",
-      "password": "123456789"
-    },
-    {
-      "username": "douyintest2",
-      "password": "123456"
-    },
-    {
-      "username": "1234567891111111111111111111111",
-      "password": "1234567891111111111111111111111"
-    },
-    {
-      "username": "1234567891111111111111111111111111",
-      "password": "1234567891111111111111111111111111"
-    },
-    {
-      "username": "1234",
-      "password": "12345678"
     },
     {
       "username": "douyin",
       "password": "123456789"
-    },
-    {
-      "username": "douyin",
-      "password": "12345678"
     }
   ]
 }

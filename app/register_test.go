@@ -17,6 +17,7 @@ package main
 import (
 	"douyin/app/dao"
 	"douyin/app/data"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
@@ -31,7 +32,7 @@ func TestRegister(t *testing.T) {
 	res := data.Read_json(".\\data\\register.json")
 	// 获取[]byte类型的json测试数据
 	testData := data.UsrPwdData{}
-	except := []int{400, 400, 400, 400, 400, 200, 200, 200, 200, 200}
+	except := []int{400, 400, 400, 400, 400, 200, 400, 200, 200, 200}
 	// 解析byte数组获取解析后的测试数据
 	testData = data.ParseRegister(res)
 	for i := 0; i < len(testData.Data); i++ {
@@ -41,6 +42,8 @@ func TestRegister(t *testing.T) {
 		router.ServeHTTP(w, req)
 		// 服务端响应 401 未授权的
 		assert.Equal(t, except[i], w.Code)
+		fmt.Println(w.Body)
+
 		//fmt.Println("-----")
 	}
 }
@@ -48,7 +51,7 @@ func TestRegister(t *testing.T) {
 //注册接口压力测试
 func BenchmarkRegister(b *testing.B) {
 	b.StopTimer()  // 调用该函数停止压力测试的时间计数
-	b.N = 10       // 发送的请求数量
+	b.N = 1        // 发送的请求数量
 	b.StartTimer() // 重新开始时间计时
 	router := Setup("../test/")
 	dao.TruncateAllTables()

@@ -22,6 +22,18 @@ func ParseRegister(wait []byte) UsrPwdData {
 	return res
 }
 
+//解析注册返回的json数据
+func ParseResponseRegister(wait []byte) ResponseUsrPwd {
+	if wait == nil {
+		return ResponseUsrPwd{}
+	}
+	res := ResponseUsrPwd{}
+	//fmt.Println("wait:", wait)
+	json.Unmarshal(wait, &res)
+	//fmt.Println("parse: ", res)
+	return res
+}
+
 //【读取json文件】
 func Read_json(filepath string) []byte {
 	filePtr, err := os.Open(filepath)
