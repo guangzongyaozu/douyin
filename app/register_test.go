@@ -51,7 +51,6 @@ func TestRegister(t *testing.T) {
 //注册接口压力测试
 func BenchmarkRegister(b *testing.B) {
 	b.StopTimer()  // 调用该函数停止压力测试的时间计数
-	b.N = 1        // 发送的请求数量
 	b.StartTimer() // 重新开始时间计时
 	router := Setup("../test/")
 	dao.TruncateAllTables()

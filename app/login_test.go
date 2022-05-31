@@ -12,6 +12,7 @@
 package main
 
 import (
+	"douyin/app/dao"
 	"douyin/app/data"
 	"fmt"
 	"github.com/stretchr/testify/assert"
@@ -40,5 +41,20 @@ func TestLogin(t *testing.T) {
 		fmt.Println(w.Body)
 
 		//fmt.Println("-----")
+	}
+}
+
+//注册接口压力测试
+func BenchmarkLogin(b *testing.B) {
+	b.StopTimer()  // 调用该函数停止压力测试的时间计数
+	b.StartTimer() // 重新开始时间计时
+	router := Setup("../test/")
+	dao.TruncateAllTables()
+	for i := 0; i < b.N; i++ {
+		w := httptest.NewRecorder()
+		req, _ := http.NewRequest("POST",
+			"http://localhost:8080/douyin/user/login/?username='douyintest'"+
+				"&password='123456789'", nil)
+		router.ServeHTTP(w, req)
 	}
 }
