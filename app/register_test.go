@@ -43,7 +43,6 @@ func TestRegister(t *testing.T) {
 		// 服务端响应 401 未授权的
 		assert.Equal(t, except[i], w.Code)
 		fmt.Println(w.Body)
-
 		//fmt.Println("-----")
 	}
 }
